@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Pytest / Coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Mypy / Linting caches
+.mypy_cache/
+.ruff_cache/
+
+# Environments / Secrets
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# OS specific files
+.DS_Store
+Thumbs.db
