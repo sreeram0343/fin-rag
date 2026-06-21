@@ -20,6 +20,8 @@ python-multipart = "^0.0.9"
 structlog = "^24.2.0"
 colorama = "^0.4.6"
 h11 = "^0.14.0"
+pdfplumber = "^0.11.1"
+
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
