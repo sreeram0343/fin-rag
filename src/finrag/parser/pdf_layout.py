@@ -46,12 +46,14 @@ class PDFLayoutParser(BaseParser):
                     # 1. Extract and map tables first
                     tables = page.find_tables()
                     table_bboxes: List[BoundingBox] = []
+                    raw_table_bboxes: List[List[float]] = []
 
                     for table_idx, table in enumerate(tables):
                         # table.bbox format is [x0, y0, x1, y1] (top-left origin)
                         raw_bbox = list(table.bbox)
                         normalized_bbox = normalize_bbox(raw_bbox, page_width, page_height)
                         table_bboxes.append(normalized_bbox)
+                        raw_table_bboxes.append(raw_bbox)
 
                         # Extract cell grid text
                         grid_data = table.extract()
@@ -101,10 +103,7 @@ class PDFLayoutParser(BaseParser):
                         word_y1 = float(w["bottom"])
 
                         is_inside_table = False
-                        for t_box in table_bboxes:
-                            # Map normalized coordinates back to page size for checking or use raw coords
-                            # Easier: compare raw coordinates of word with raw table coordinates
-                            tx0, ty0, tx1, ty1 = raw_bbox
+                        for tx0, ty0, tx1, ty1 in raw_table_bboxes:
                             # check if word is fully inside the table boundaries
                             if (word_x0 >= tx0 - 2 and word_x1 <= tx1 + 2 and
                                     word_y0 >= ty0 - 2 and word_y1 <= ty1 + 2):

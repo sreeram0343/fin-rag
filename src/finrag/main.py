@@ -8,6 +8,7 @@ import structlog
 from finrag.core.config import settings
 from finrag.core.exceptions import ApiException
 from finrag.core.logging import configure_logging, correlation_id_var
+from finrag.api.v1.router import router as api_v1_router
 
 # Setup structured logs configuration
 configure_logging(settings.LOG_LEVEL, settings.ENV)
@@ -25,6 +26,8 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan
 )
+
+app.include_router(api_v1_router, prefix="/api/v1")
 
 @app.middleware("http")
 async def correlation_id_middleware(request: Request, call_next: Callable) -> Response:

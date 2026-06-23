@@ -21,6 +21,9 @@ class Settings(BaseSettings):
         default=SecretStr("mock-vector-db-api-key")
     )
 
+    # Redis & Message Broker Settings
+    REDIS_URL: str = "redis://localhost:6379/0"
+
     # Storage Settings
     MINIO_ENDPOINT: str = "localhost:9000"
     MINIO_ACCESS_KEY: str = "minioadmin"
