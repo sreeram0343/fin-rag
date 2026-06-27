@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from finrag.db.session import get_db_session
 from finrag.db.document_repository import DocumentRepository
+from finrag.db.chunk_repository import ChunkRepository
 from finrag.utils.storage import get_storage_client, BaseStorageClient
 from finrag.core.security import decode_access_token
 
@@ -11,6 +12,10 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
 async def get_document_repository(db: AsyncSession = Depends(get_db_session)) -> DocumentRepository:
     """Dependency yielding a DocumentRepository database wrapper."""
     return DocumentRepository(db)
+
+async def get_chunk_repository(db: AsyncSession = Depends(get_db_session)) -> ChunkRepository:
+    """Dependency yielding a ChunkRepository database wrapper."""
+    return ChunkRepository(db)
 
 def get_storage() -> BaseStorageClient:
     """Dependency yielding the active StorageClient instance."""

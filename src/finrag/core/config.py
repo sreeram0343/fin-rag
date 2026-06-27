@@ -34,6 +34,14 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: SecretStr = Field(default=SecretStr("mock-openai-key"))
     ANTHROPIC_API_KEY: SecretStr = Field(default=SecretStr("mock-anthropic-key"))
 
+    # Embedding & Chunking Settings
+    EMBEDDING_MODEL: str = "BAAI/bge-large-en-v1.5"
+    EMBEDDING_DIMENSION: int = 1024
+    EMBEDDING_BATCH_SIZE: int = 32
+    CHUNK_MAX_TOKENS: int = 512
+    CHUNK_OVERLAP_TOKENS: int = 64
+    QDRANT_COLLECTION_NAME: str = "finrag_chunks"
+
     # Security Secrets
     SECRET_KEY: SecretStr = Field(
         default=SecretStr("your-super-secret-cryptographic-signing-key-32-chars-min")

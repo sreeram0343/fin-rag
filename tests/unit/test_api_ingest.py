@@ -205,7 +205,7 @@ def test_get_job_status_success(client: TestClient, auth_header: dict, mock_cele
     assert json_data["job_id"] == job_id
     assert json_data["status"] == "QUEUED"
     assert json_data["current_step"] == "QUEUED"
-    assert json_data["progress_percentage"] == 10
+    assert json_data["progress_percentage"] == 5
 
 def test_get_job_status_not_found(client: TestClient, auth_header: dict) -> None:
     non_existent_uuid = str(uuid.uuid4())

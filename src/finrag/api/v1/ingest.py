@@ -4,12 +4,13 @@ import hashlib
 import uuid
 import datetime
 import structlog
-from fastapi import APIRouter, UploadFile, File, Form, Depends, BackgroundTasks, HTTPException, status
+from fastapi import APIRouter, UploadFile, File, Form, Depends, BackgroundTasks, HTTPException, status, Query
 from celery.result import AsyncResult
 
-from finrag.api.dependencies import get_document_repository, get_storage, verify_token
+from finrag.api.dependencies import get_document_repository, get_chunk_repository, get_storage, verify_token
 from finrag.db.models.document import Document
 from finrag.db.document_repository import DocumentRepository
+from finrag.db.chunk_repository import ChunkRepository
 from finrag.utils.storage import BaseStorageClient
 from finrag.tasks.document_tasks import process_document_task, process_document_async
 
@@ -134,6 +135,109 @@ async def upload_document(
         "created_at": doc.created_at.isoformat() + "Z"
     }
 
+
+@router.get("")
+async def list_documents(
+    ticker: str = Query(default=None, description="Filter by company ticker symbol"),
+    repo: DocumentRepository = Depends(get_document_repository),
+    chunk_repo: ChunkRepository = Depends(get_chunk_repository),
+    token_payload: dict = Depends(verify_token)
+) -> dict:
+    """List uploaded documents with optional ticker filtering."""
+    # Enforce RBAC scopes
+    scopes = token_payload.get("scopes", [])
+    if "read:documents" not in scopes:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Insufficient permissions. Required scope: read:documents"
+        )
+
+    # Validate ticker if provided
+    if ticker:
+        ticker = ticker.strip().upper()
+        if not re.match(r"^[A-Z0-9]{1,5}$", ticker):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Ticker must contain 1-5 capital alphanumeric characters."
+            )
+
+    documents = await repo.list_all(ticker=ticker)
+
+    results = []
+    for doc in documents:
+        chunk_count = await chunk_repo.count_by_document_id(doc.id)
+        results.append({
+            "document_id": doc.id,
+            "ticker": doc.ticker,
+            "period": doc.period,
+            "year": doc.year,
+            "status": doc.status,
+            "chunk_count": chunk_count,
+            "created_at": doc.created_at.isoformat() + "Z"
+        })
+
+    return {"documents": results, "total": len(results)}
+
+
+@router.get("/{document_id}")
+async def get_document(
+    document_id: str,
+    repo: DocumentRepository = Depends(get_document_repository),
+    chunk_repo: ChunkRepository = Depends(get_chunk_repository),
+    token_payload: dict = Depends(verify_token)
+) -> dict:
+    """Retrieve detailed metadata for a specific document."""
+    # Enforce RBAC scopes
+    scopes = token_payload.get("scopes", [])
+    if "read:documents" not in scopes:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Insufficient permissions. Required scope: read:documents"
+        )
+
+    # Validate UUID format
+    if not re.match(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", document_id, re.IGNORECASE):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Document ID must be a valid 36-character UUID string."
+        )
+
+    doc = await repo.get_by_id(document_id)
+    if not doc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Document not found."
+        )
+
+    chunk_count = await chunk_repo.count_by_document_id(document_id)
+    chunks = await chunk_repo.get_by_document_id(document_id)
+
+    chunk_summary = {
+        "total": chunk_count,
+        "by_type": {},
+        "pages": set(),
+    }
+    for chunk in chunks:
+        chunk_summary["by_type"][chunk.chunk_type] = chunk_summary["by_type"].get(chunk.chunk_type, 0) + 1
+        chunk_summary["pages"].add(chunk.page_number)
+
+    return {
+        "document_id": doc.id,
+        "ticker": doc.ticker,
+        "period": doc.period,
+        "year": doc.year,
+        "status": doc.status,
+        "storage_uri": doc.storage_uri,
+        "file_hash": doc.file_hash,
+        "created_at": doc.created_at.isoformat() + "Z",
+        "chunks": {
+            "total": chunk_count,
+            "by_type": chunk_summary["by_type"],
+            "pages_covered": sorted(chunk_summary["pages"]),
+        }
+    }
+
+
 @router.get("/jobs/{job_id}")
 async def get_job_status(
     job_id: str,
@@ -184,14 +288,21 @@ async def get_job_status(
     db_status = doc.status
     current_status = status_mapping.get(celery_status, db_status)
 
+    # Enhanced status tracking with new pipeline stages
     progress = 0
     step = "INGESTION"
     if current_status == "QUEUED":
         step = "QUEUED"
-        progress = 10
+        progress = 5
     elif current_status == "PROCESSING":
         step = "OCR_PARSING"
-        progress = 45
+        progress = 25
+    elif current_status == "CHUNKING":
+        step = "SEMANTIC_CHUNKING"
+        progress = 50
+    elif current_status == "INDEXING":
+        step = "VECTOR_INDEXING"
+        progress = 75
     elif current_status == "COMPLETED":
         step = "COMPLETED"
         progress = 100
