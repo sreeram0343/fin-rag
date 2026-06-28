@@ -69,9 +69,30 @@ class VectorLoader:
                 batch_size=len(batch_texts),
             )
 
+        # 1.5 Retrieve document metadata for metadata preservation in Qdrant
+        ticker = "UNKNOWN"
+        fiscal_period = "UNKNOWN"
+        document_type = "10-Q"
+        document_path = ""
+        if self.chunk_repo:
+            from finrag.db.models.document import Document
+            from sqlalchemy.future import select
+            stmt = select(Document).where(Document.id == document_id)
+            res = await self.chunk_repo.session.execute(stmt)
+            doc = res.scalars().first()
+            if doc:
+                ticker = doc.ticker
+                fiscal_period = f"{doc.period} {doc.year}"
+                document_path = doc.storage_uri
+                document_type = "10-K" if doc.period == "FY" else "10-Q"
+
         # 2. Build Qdrant point structs with metadata payloads
         points: List[PointStruct] = []
         for chunk, embedding in zip(chunks, all_embeddings):
+            meta = chunk.metadata or {}
+            paragraph_id = meta.get("block_index")
+            table_id = meta.get("table_index")
+
             point = PointStruct(
                 id=chunk.chunk_id,
                 vector=embedding,
@@ -88,6 +109,24 @@ class VectorLoader:
                     "bbox_y0": chunk.bounding_box.y0,
                     "bbox_x1": chunk.bounding_box.x1,
                     "bbox_y1": chunk.bounding_box.y1,
+                    # Normalized bbox coordinate objects
+                    "bbox": {
+                        "x1": chunk.bounding_box.x0,
+                        "y1": chunk.bounding_box.y0,
+                        "x2": chunk.bounding_box.x1,
+                        "y2": chunk.bounding_box.y1,
+                    },
+                    "section": chunk.parent_header,
+                    "ticker": ticker,
+                    "period": fiscal_period,
+                    "fiscal_period": fiscal_period,
+                    "document_type": document_type,
+                    "document_path": document_path,
+                    "paragraph_id": paragraph_id,
+                    "table_id": table_id,
+                    "paragraph": chunk.text if chunk.chunk_type == "TEXT" else None,
+                    "table": chunk.text if chunk.chunk_type == "TABLE" else None,
+                    "figure": None,
                 },
             )
             points.append(point)

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FinRAG - Compare Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {outline: "#737688", "on-tertiary": "#ffffff", "error-container": "#ffdad6", "secondary-container": "#dfe0e0", "surface-container-highest": "#e2e2e2", "surface-container": "#eeeeee", error: "#ba1a1a", "inverse-on-surface": "#f1f1f1", "on-secondary-fixed": "#1a1c1c", "on-primary-fixed-variant": "#0038b7", "tertiary-container": "#c12b00", "on-surface": "#1b1b1b", "secondary-fixed": "#e2e2e2", "outline-variant": "#c3c5d9", "on-error-container": "#93000a", "on-surface-variant": "#434656", "surface-container-low": "#f3f3f3", tertiary: "#961f00", "primary-container": "#0051ff", "tertiary-fixed-dim": "#ffb4a2", "primary-fixed": "#dde1ff", "surface-tint": "#004bee", "on-tertiary-fixed": "#3c0700", "on-tertiary-container": "#ffdcd4", "surface-bright": "#f9f9f9", "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#b7c4ff", primary: "#003dc7", "surface-container-high": "#e8e8e8", "tertiary-fixed": "#ffdad2", "on-background": "#1b1b1b", "on-primary": "#ffffff", "secondary-fixed-dim": "#c6c6c7", "on-primary-fixed": "#001452", "surface-variant": "#e2e2e2", surface: "#f9f9f9", "on-error": "#ffffff", "on-primary-container": "#dee2ff", "inverse-surface": "#303030", background: "#f9f9f9", secondary: "#5d5f5f", "on-secondary-container": "#616363", "surface-dim": "#dadada", "on-secondary": "#ffffff", "inverse-primary": "#b7c4ff", "on-secondary-fixed-variant": "#454747", "on-tertiary-fixed-variant": "#8a1c00", "diff-add": "#dcfce7", "diff-add-text": "#166534", "diff-remove": "#fee2e2", "diff-remove-text": "#991b1b", "diff-modify": "#fef9c3", "diff-modify-text": "#854d0e"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-padding": "32px", gutter: "24px", "element-gap": "16px", "section-margin": "48px", base: "4px"}, fontFamily: {"display-metrics": ["Inter"], "headline-lg": ["Inter"], "section-title": ["Inter"], "headline-lg-mobile": ["Inter"], "body-md": ["Inter"], metadata: ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"display-metrics": ["36px", {lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "600"}], "headline-lg": ["28px", {lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "600"}], "section-title": ["18px", {lineHeight: "28px", fontWeight: "600"}], "headline-lg-mobile": ["24px", {lineHeight: "32px", fontWeight: "600"}], "body-md": ["14px", {lineHeight: "20px", fontWeight: "400"}], metadata: ["12px", {lineHeight: "16px", fontWeight: "500"}], "body-sm": ["13px", {lineHeight: "18px", fontWeight: "400"}], "label-caps": ["11px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600"}]}}}};</script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; color: #151c27; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+        .icon-fill { font-variation-settings: 'FILL' 1; }
+        
+        /* Custom scrollbar for data density */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c3c6d7; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #737686; }
+    </style>
+</head>
+<body class="bg-background flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface dark:bg-surface font-body-md text-body-md fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant flex flex-col py-section-margin px-element-gap z-50">
+<div class="mb-section-margin">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined icon-fill">analytics</span>
+                FinRAG
+            </h1>
+<p class="font-metadata text-metadata text-on-surface-variant mt-1">Institutional Research</p>
+</div>
+<button class="bg-primary-container text-on-primary font-section-title text-section-title rounded-lg py-2 px-4 mb-element-gap flex items-center justify-center gap-2 hover:bg-primary transition-colors cursor-pointer active:scale-95">
+<span class="material-symbols-outlined">add</span>
+            New Analysis
+        </button>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">biotech</span>
+                        Research Workspace
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">description</span>
+                        Documents
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded bg-surface-container-high text-primary font-semibold transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined icon-fill">compare_arrows</span>
+                        Compare Reports
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">database</span>
+                        Knowledge Base
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+                        Analytics
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">ios_share</span>
+                        Exports
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+</div>
+<div class="mt-auto border-t border-outline-variant pt-element-gap">
+<ul class="space-y-1">
+<li>
+<div class="flex items-center justify-between px-3 py-2 text-on-surface-variant font-metadata text-metadata">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">cloud_done</span> Storage Status</span>
+<span class="text-secondary">45%</span>
+</div>
+</li>
+<li>
+<div class="flex items-center px-3 py-2 text-on-surface-variant font-metadata text-metadata">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">memory</span> Model: GPT-4o</span>
+</div>
+</li>
+</ul>
+<div class="mt-4 flex items-center gap-3 px-3">
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small, professional corporate headshot of a financial analyst, well-lit, neutral background, suitable for an avatar in a clean, minimalist UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4ZFYoDP2lOP9_vHqJyYkmCySrRF7w737fQjWB_jYaei55u4NaAuKeyrokPE96bywkSEKOKgafPi-UlXaJ0dd39po3zXSKKxzJxXrsbis_g7MebVPJ3_eQ0qHQt6a_T3aGPs8LzcGpFMnIi65lc3mbMXeLmooMkDxpn3Sh6uXkhoLSfTmuBLDYmrdlXbpEUzaHu2FPXtJInqA2U0CwyhNramA7cp3IQj3YbRoHH9DwvEZIDcrvYjqvU5sZHe25n3w8vrC4tzrgyYrB"/>
+<div class="flex flex-col">
+<span class="font-metadata text-metadata text-on-surface font-semibold">J. Doe</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Analyst</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-surface/80 backdrop-blur-md font-body-md text-body-md fixed top-0 right-0 w-[calc(100%-280px)] z-40 border-b border-outline-variant flex items-center justify-between h-16 px-container-padding transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-element-gap h-full">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-fixed-dim transition-all w-64 font-body-sm text-body-sm" placeholder="Search entities, filings..." type="text"/>
+</div>
+<nav class="flex items-center gap-6 h-full ml-gutter">
+<a class="text-on-surface-variant hover:text-primary transition-opacity h-full flex items-center" href="#">Tickers</a>
+<a class="text-on-surface-variant hover:text-primary transition-opacity h-full flex items-center" href="#">Quarters</a>
+<a class="text-on-surface-variant hover:text-primary transition-opacity h-full flex items-center" href="#">Models</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant cursor-pointer" data-alt="A small, professional corporate headshot of a financial analyst, well-lit, neutral background, suitable for an avatar in a clean, minimalist UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdANreDx2-xLXp5qwbzpaEAQ5UbrCfcuk5gLqMfKgU5mNzOq1cJSuPsds0Wla1PhBOzhjbJEc2AIHVSMGBx5-9lePcYx4hIbLE1W8nJJRQEYA5oDczmODWonyoOyA1fJr6A7Puv5KaxMPqYZ1JongW5rNjMasYLvAhNUw_bvVa4xgJ11K19AIuxp7iZg-DgB7rPoUtx_R-4GgThbDaJIIQ5od0IDTuFv2v1lrmCwKWZxIFrpwLrzMnpwzDrKRA4bXK5GrJHCqyFMnc"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] mt-16 flex-1 flex flex-col h-[calc(100vh-64px)] w-[calc(100%-280px)] overflow-hidden bg-background">
+<!-- Toolbar & Tabs -->
+<div class="bg-surface-container-lowest border-b border-outline-variant px-container-padding py-element-gap flex items-center justify-between shrink-0">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-3">
+                    AAPL 10-Q Comparison
+                    <span class="bg-surface-container-high text-primary font-label-caps text-label-caps px-2 py-1 rounded border border-outline-variant uppercase">Q3 '23 vs Q3 '24</span>
+</h2>
+<div class="flex items-center gap-6 mt-3 border-b border-outline-variant w-max">
+<button class="text-primary border-b-2 border-primary pb-2 px-1 font-body-sm text-body-sm font-semibold">Lexical Diff</button>
+<button class="text-on-surface-variant hover:text-on-surface pb-2 px-1 font-body-sm text-body-sm transition-colors">Semantic Diff</button>
+<button class="text-on-surface-variant hover:text-on-surface pb-2 px-1 font-body-sm text-body-sm transition-colors flex items-center gap-1">Risk Changes <span class="w-2 h-2 rounded-full bg-error inline-block"></span></button>
+<button class="text-on-surface-variant hover:text-on-surface pb-2 px-1 font-body-sm text-body-sm transition-colors">MD&amp;A</button>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-lowest border border-outline-variant text-on-surface font-body-sm text-body-sm rounded px-3 py-1.5 flex items-center gap-2 hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px]">tune</span> Options
+                </button>
+<button class="bg-surface-container-lowest border border-outline-variant text-on-surface font-body-sm text-body-sm rounded px-3 py-1.5 flex items-center gap-2 hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px]">download</span> Export Diff
+                </button>
+</div>
+</div>
+<!-- Split Screen View -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Pane: 2023 -->
+<div class="flex-1 flex flex-col border-r border-outline-variant bg-surface-container-lowest">
+<div class="p-3 border-b border-outline-variant bg-surface font-metadata text-metadata text-on-surface-variant flex justify-between items-center shrink-0">
+<span class="font-semibold text-on-surface">Base: 2023 Q3 Filing</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded">Filed: Jul 28, 2023</span>
+</div>
+<div class="p-6 overflow-y-auto font-body-md text-body-md text-on-surface leading-relaxed">
+<h3 class="font-section-title text-section-title mb-4">Item 2. Management’s Discussion and Analysis</h3>
+<p class="mb-4">
+                        Total net sales increased 2% to <span class="bg-diff-modify text-diff-modify-text px-1 rounded">$81.8 billion</span> during the third quarter of 2023, compared to the same quarter in 2022. 
+                        This was primarily driven by higher Services net sales, <span class="bg-diff-remove text-diff-remove-text px-1 rounded line-through decoration-diff-remove-text">partially offset by lower iPhone and Mac net sales</span>.
+                    </p>
+<p class="mb-4">
+                        The Company expects macroeconomic factors, <span class="bg-diff-remove text-diff-remove-text px-1 rounded line-through decoration-diff-remove-text">including inflation and foreign exchange fluctuations</span>, to continue to impact results in future periods.
+                    </p>
+<div class="border-l-4 border-outline-variant pl-4 py-2 my-6 text-on-surface-variant italic">
+                        "Supply chain constraints have eased significantly since the prior year, allowing for normalization of inventory levels across major product lines."
+                    </div>
+</div>
+</div>
+<!-- Right Pane: 2024 -->
+<div class="flex-1 flex flex-col border-r border-outline-variant bg-surface-container-lowest">
+<div class="p-3 border-b border-outline-variant bg-surface font-metadata text-metadata text-on-surface-variant flex justify-between items-center shrink-0">
+<span class="font-semibold text-on-surface">Target: 2024 Q3 Filing</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded">Filed: Aug 1, 2024</span>
+</div>
+<div class="p-6 overflow-y-auto font-body-md text-body-md text-on-surface leading-relaxed">
+<h3 class="font-section-title text-section-title mb-4">Item 2. Management’s Discussion and Analysis</h3>
+<p class="mb-4">
+                        Total net sales increased 5% to <span class="bg-diff-modify text-diff-modify-text px-1 rounded">$85.8 billion</span> during the third quarter of 2024, compared to the same quarter in 2023. 
+                        This was primarily driven by higher Services net sales, <span class="bg-diff-add text-diff-add-text px-1 rounded font-medium">and strong performance in iPad and Wearables segments</span>.
+                    </p>
+<p class="mb-4">
+                        The Company expects macroeconomic factors, <span class="bg-diff-add text-diff-add-text px-1 rounded font-medium">particularly relating to global trade tensions and evolving regulatory requirements in the EU</span>, to continue to impact results in future periods.
+                    </p>
+<div class="border-l-4 border-primary-container pl-4 py-2 my-6 text-on-surface bg-surface-container-low">
+                        "Supply chain operations remain stable; <span class="bg-diff-add text-diff-add-text px-1 rounded font-medium">however, we are actively diversifying manufacturing hubs to mitigate geopolitical risks and ensure long-term resilience.</span>"
+                    </div>
+</div>
+</div>
+<!-- Far Right: Semantic Insights -->
+<aside class="w-[320px] bg-surface flex flex-col shrink-0">
+<div class="p-4 border-b border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">lightbulb</span>
+<h3 class="font-section-title text-section-title">Semantic Insights</h3>
+</div>
+<div class="p-4 overflow-y-auto flex-1 space-y-6">
+<!-- Insight Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Risk Shift</span>
+<span class="bg-error-container text-on-error-container font-metadata text-metadata px-2 py-0.5 rounded">Elevated</span>
+</div>
+<h4 class="font-body-sm text-body-sm font-semibold text-on-surface mb-2">Regulatory Focus</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                            Language regarding EU regulations has shifted from "monitoring" to "active mitigation," indicating increased compliance costs and potential market impact.
+                        </p>
+</div>
+<!-- Insight Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-container"></div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Strategic Pivot</span>
+<span class="bg-primary-fixed text-on-primary-fixed font-metadata text-metadata px-2 py-0.5 rounded">Notable</span>
+</div>
+<h4 class="font-body-sm text-body-sm font-semibold text-on-surface mb-2">Supply Chain Diversification</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                            New explicit references to "diversifying manufacturing hubs" suggest material capital expenditure allocations towards supply chain restructuring not present in 2023.
+                        </p>
+</div>
+<!-- Metrics Summary -->
+<div class="mt-6">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-3 border-b border-outline-variant pb-1">Key Metric Shifts</h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Total Net Sales</span>
+<div class="flex items-center gap-2">
+<span class="font-metadata text-metadata text-on-surface-variant line-through">$81.8B</span>
+<span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span>
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">$85.8B</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">R&amp;D Spend</span>
+<div class="flex items-center gap-2">
+<span class="font-metadata text-metadata text-on-surface-variant line-through">$7.4B</span>
+<span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span>
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">$8.1B</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

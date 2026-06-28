@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FinRAG Upload Pipeline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {outline: "#737688", "on-tertiary": "#ffffff", "error-container": "#ffdad6", "secondary-container": "#dfe0e0", "surface-container-highest": "#e2e2e2", "surface-container": "#eeeeee", error: "#ba1a1a", "inverse-on-surface": "#f1f1f1", "on-secondary-fixed": "#1a1c1c", "on-primary-fixed-variant": "#0038b7", "tertiary-container": "#c12b00", "on-surface": "#1b1b1b", "secondary-fixed": "#e2e2e2", "outline-variant": "#c3c5d9", "on-error-container": "#93000a", "on-surface-variant": "#434656", "surface-container-low": "#f3f3f3", tertiary: "#961f00", "primary-container": "#0051ff", "tertiary-fixed-dim": "#ffb4a2", "primary-fixed": "#dde1ff", "surface-tint": "#004bee", "on-tertiary-fixed": "#3c0700", "on-tertiary-container": "#ffdcd4", "surface-bright": "#f9f9f9", "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#b7c4ff", primary: "#003dc7", "surface-container-high": "#e8e8e8", "tertiary-fixed": "#ffdad2", "on-background": "#1b1b1b", "on-primary": "#ffffff", "secondary-fixed-dim": "#c6c6c7", "on-primary-fixed": "#001452", "surface-variant": "#e2e2e2", surface: "#f9f9f9", "on-error": "#ffffff", "on-primary-container": "#dee2ff", "inverse-surface": "#303030", background: "#f9f9f9", secondary: "#5d5f5f", "on-secondary-container": "#616363", "surface-dim": "#dadada", "on-secondary": "#ffffff", "inverse-primary": "#b7c4ff", "on-secondary-fixed-variant": "#454747", "on-tertiary-fixed-variant": "#8a1c00"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-padding": "32px", gutter: "24px", "element-gap": "16px", "section-margin": "48px", base: "4px"}, fontFamily: {"display-metrics": ["Inter"], "headline-lg": ["Inter"], "section-title": ["Inter"], "headline-lg-mobile": ["Inter"], "body-md": ["Inter"], metadata: ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"display-metrics": ["36px", {lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "600"}], "headline-lg": ["28px", {lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "600"}], "section-title": ["18px", {lineHeight: "28px", fontWeight: "600"}], "headline-lg-mobile": ["24px", {lineHeight: "32px", fontWeight: "600"}], "body-md": ["14px", {lineHeight: "20px", fontWeight: "400"}], metadata: ["12px", {lineHeight: "16px", fontWeight: "500"}], "body-sm": ["13px", {lineHeight: "18px", fontWeight: "400"}], "label-caps": ["11px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600"}]}}}};</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-full font-body-md flex antialiased selection:bg-primary-container selection:text-on-primary">
+<!-- SideNavBar -->
+<nav class="bg-surface fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant flex flex-col py-section-margin px-element-gap z-50 hidden md:flex">
+<div class="mb-section-margin flex items-center gap-4 px-2">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">FinRAG</h1>
+<p class="font-metadata text-metadata text-on-surface-variant">Institutional Research</p>
+</div>
+</div>
+<button class="w-full bg-primary-container hover:bg-primary text-on-primary py-2 px-4 rounded-lg font-body-md font-semibold transition-colors flex items-center justify-center gap-2 mb-8">
+<span class="material-symbols-outlined">add</span>
+            New Analysis
+        </button>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-high text-primary font-semibold transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+                Research Workspace
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                Documents
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="compare_arrows">compare_arrows</span>
+                Compare Reports
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+                Knowledge Base
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="ios_share">ios_share</span>
+                Exports
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto border-t border-outline-variant pt-4 space-y-2">
+<div class="flex items-center justify-between text-on-surface-variant px-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="cloud_done">cloud_done</span>
+<span class="font-metadata text-metadata">Storage Status</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant px-2">
+<span class="material-symbols-outlined text-lg" data-icon="memory">memory</span>
+<span class="font-metadata text-metadata">Model: GPT-4o</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-h-screen md:pl-[280px]">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md fixed top-0 right-0 w-full md:w-[calc(100%-280px)] z-40 border-b border-outline-variant flex items-center justify-between h-16 px-container-padding transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-8">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-outline-variant rounded-full font-body-sm text-body-sm focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container transition-all w-64 text-on-surface" placeholder="Search insights..." type="text"/>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1 font-medium transition-all duration-300 ease-in-out" href="#">Tickers</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity transition-all duration-300 ease-in-out" href="#">Quarters</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity transition-all duration-300 ease-in-out" href="#">Models</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A professional corporate headshot of a user, minimalist light mode aesthetic, soft studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkF6XQHzE-5GsZJBIQtyCt2-x407Z-EQGlWLSnVCxFeJXjPHbqXj9SyfyE04Lp7gyoUeJApVD_cIjXdZbmOyzbhJtOHyh5fJlk7vYpHjqj0epPMUBSBNiBHC2O4Thx4jR5j-gjRsZg8tWswIH2YodISk3OOhJVRIixxzNsMmbr2aiRqtqZKu1TWYuioPveX-7xPiLOLZWuqFucqvNsOQONbv2MypI-6G9mfV1bx7D9GihMib5-WfpRSRpx4VDGqSVKvwKUV_4q1Jz-"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 pt-24 px-container-padding pb-section-margin max-w-7xl mx-auto w-full">
+<div class="mb-12">
+<h2 class="font-display-metrics text-display-metrics text-on-surface mb-2">Upload Pipeline</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Processing 10-K filing for AAPL (Q3 2024). Extracting tables, semantic chunks, and cross-referencing with historical knowledge base.</p>
+</div>
+<!-- Deployment Pipeline Vercel Style -->
+<div class="bg-surface border border-outline-variant rounded-xl p-8 mb-8">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container text-2xl">description</span>
+<div>
+<h3 class="font-section-title text-section-title text-on-surface">AAPL_10K_Q3_24.pdf</h3>
+<span class="font-metadata text-metadata text-on-surface-variant">42.5 MB • 124 Pages</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container pulse"></span>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider">Processing</span>
+</div>
+</div>
+<!-- Horizontal Timeline -->
+<div class="relative flex items-center justify-between w-full mt-12 mb-4">
+<!-- Connecting Lines -->
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-surface-container-highest -translate-y-1/2 z-0"></div>
+<div class="absolute top-1/2 left-0 w-[42%] h-0.5 bg-primary-container -translate-y-1/2 z-0 transition-all duration-1000"></div>
+<!-- Step 1: Upload -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32 group">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="text-center">
+<p class="font-metadata text-metadata text-on-surface font-semibold">Upload</p>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70">1.2s</p>
+</div>
+</div>
+<!-- Step 2: Parsing -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32 group">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="text-center">
+<p class="font-metadata text-metadata text-on-surface font-semibold">Parsing</p>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70">4.5s</p>
+</div>
+</div>
+<!-- Step 3: OCR -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32 group">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="text-center">
+<p class="font-metadata text-metadata text-on-surface font-semibold">OCR</p>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70">12.8s</p>
+</div>
+</div>
+<!-- Step 4: Table Extraction (Active) -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32 group">
+<div class="w-8 h-8 rounded-full bg-surface border-2 border-primary-container text-primary-container flex items-center justify-center pulse">
+<div class="w-2.5 h-2.5 rounded-full bg-primary-container"></div>
+</div>
+<div class="text-center">
+<p class="font-metadata text-metadata text-primary font-semibold">Table Extraction</p>
+<p class="font-label-caps text-label-caps text-primary opacity-80">Processing...</p>
+</div>
+</div>
+<!-- Step 5: Chunking -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32 group">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant text-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</div>
+<div class="text-center">
+<p class="font-metadata text-metadata text-on-surface-variant">Chunking</p>
+<p class="font-label-caps text-label-caps text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity">Pending</p>
+</div>
+</div>
+<!-- Step 6: Embeddings -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32 group">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant text-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">data_array</span>
+</div>
+<div class="text-center">
+<p class="font-metadata text-metadata text-on-surface-variant">Embeddings</p>
+</div>
+</div>
+<!-- Step 7: Verification -->
+<div class="relative z-10 flex flex-col items-center gap-3 w-32 group">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant text-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div class="text-center">
+<p class="font-metadata text-metadata text-on-surface-variant">Verification</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Logs / Terminal View -->
+<div class="bg-inverse-surface rounded-xl border border-outline p-6 font-mono text-sm overflow-hidden">
+<div class="flex items-center justify-between mb-4 border-b border-tertiary-container pb-4">
+<span class="font-label-caps text-label-caps text-on-tertiary opacity-70">Build Logs</span>
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-error/80"></div>
+<div class="w-3 h-3 rounded-full bg-[#EAB308]/80"></div>
+<div class="w-3 h-3 rounded-full bg-[#22C55E]/80"></div>
+</div>
+</div>
+<div class="space-y-2 text-surface-dim h-64 overflow-y-auto pr-2 custom-scrollbar">
+<div class="flex gap-4"><span class="text-outline">14:02:01</span> <span class="text-primary-fixed-dim">[INFO]</span> <span>Initiating secure upload sequence...</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:02</span> <span class="text-[#22C55E]">[SUCCESS]</span> <span>Document securely stored in S3 bucket.</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:02</span> <span class="text-primary-fixed-dim">[INFO]</span> <span>Starting PDF parsing engine (v2.4.1)...</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:06</span> <span class="text-primary-fixed-dim">[INFO]</span> <span>Detected 124 pages. Analyzing layout structure.</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:07</span> <span class="text-[#22C55E]">[SUCCESS]</span> <span>Layout analysis complete. Structural mapping saved.</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:07</span> <span class="text-primary-fixed-dim">[INFO]</span> <span>Engaging Vision-Language Model for OCR...</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:15</span> <span class="text-primary-fixed-dim">[INFO]</span> <span>Extracting complex financial tables (Pages 42-56).</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:18</span> <span class="text-[#22C55E]">[SUCCESS]</span> <span>High-fidelity OCR transcription verified (Confidence: 99.4%).</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:19</span> <span class="text-primary-fixed-dim">[INFO]</span> <span>Initiating Table Extraction Module (Camelot/Tabula fallback)...</span></div>
+<div class="flex gap-4"><span class="text-outline">14:02:20</span> <span class="text-[#EAB308]">[WARN]</span> <span>Complex nested headers detected on Page 48. Applying heuristic adjustments.</span></div>
+<div class="flex gap-4 animate-pulse"><span class="text-outline">14:02:22</span> <span class="text-primary-fixed-dim">[PROCESSING]</span> <span class="text-on-tertiary">Normalizing multi-row spanning cells...</span></div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

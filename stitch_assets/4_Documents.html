@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background antialiased" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FinRAG - Document Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {outline: "#737688", "on-tertiary": "#ffffff", "error-container": "#ffdad6", "secondary-container": "#dfe0e0", "surface-container-highest": "#e2e2e2", "surface-container": "#eeeeee", error: "#ba1a1a", "inverse-on-surface": "#f1f1f1", "on-secondary-fixed": "#1a1c1c", "on-primary-fixed-variant": "#0038b7", "tertiary-container": "#c12b00", "on-surface": "#1b1b1b", "secondary-fixed": "#e2e2e2", "outline-variant": "#c3c5d9", "on-error-container": "#93000a", "on-surface-variant": "#434656", "surface-container-low": "#f3f3f3", tertiary: "#961f00", "primary-container": "#0051ff", "tertiary-fixed-dim": "#ffb4a2", "primary-fixed": "#dde1ff", "surface-tint": "#004bee", "on-tertiary-fixed": "#3c0700", "on-tertiary-container": "#ffdcd4", "surface-bright": "#f9f9f9", "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#b7c4ff", primary: "#003dc7", "surface-container-high": "#e8e8e8", "tertiary-fixed": "#ffdad2", "on-background": "#1b1b1b", "on-primary": "#ffffff", "secondary-fixed-dim": "#c6c6c7", "on-primary-fixed": "#001452", "surface-variant": "#e2e2e2", surface: "#f9f9f9", "on-error": "#ffffff", "on-primary-container": "#dee2ff", "inverse-surface": "#303030", background: "#f9f9f9", secondary: "#5d5f5f", "on-secondary-container": "#616363", "surface-dim": "#dadada", "on-secondary": "#ffffff", "inverse-primary": "#b7c4ff", "on-secondary-fixed-variant": "#454747", "on-tertiary-fixed-variant": "#8a1c00"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-padding": "32px", gutter: "24px", "element-gap": "16px", "section-margin": "48px", base: "4px"}, fontFamily: {"display-metrics": ["Inter"], "headline-lg": ["Inter"], "section-title": ["Inter"], "headline-lg-mobile": ["Inter"], "body-md": ["Inter"], metadata: ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"display-metrics": ["36px", {lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "600"}], "headline-lg": ["28px", {lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "600"}], "section-title": ["18px", {lineHeight: "28px", fontWeight: "600"}], "headline-lg-mobile": ["24px", {lineHeight: "32px", fontWeight: "600"}], "body-md": ["14px", {lineHeight: "20px", fontWeight: "400"}], metadata: ["12px", {lineHeight: "16px", fontWeight: "500"}], "body-sm": ["13px", {lineHeight: "18px", fontWeight: "400"}], "label-caps": ["11px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600"}]}}}};</script>
+</head>
+<body class="flex h-full bg-background overflow-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar -->
+<nav class="bg-surface dark:bg-surface font-body-md text-body-md fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant flat no shadows flex flex-col h-full py-section-margin px-element-gap hidden xl:flex z-30">
+<div class="mb-section-margin px-element-gap">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-3xl font-variation-settings: 'FILL' 1;">dataset</span>
+<span class="font-headline-lg text-headline-lg font-bold text-primary">FinRAG</span>
+</div>
+<span class="font-metadata text-metadata text-on-surface-variant block mt-1 uppercase tracking-wider">Institutional Research</span>
+</div>
+<button class="bg-primary-container text-on-primary hover:bg-primary transition-colors duration-200 rounded-lg py-2 px-4 flex items-center justify-center gap-2 font-body-md font-semibold mb-element-gap cursor-pointer active:scale-95 shadow-sm mx-element-gap">
+<span class="material-symbols-outlined text-[20px]">add</span>
+            New Analysis
+        </button>
+<ul class="flex-1 space-y-1 mt-6">
+<li>
+<a class="flex items-center gap-3 px-element-gap py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px] stroke-[2px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-element-gap py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px] stroke-[2px]">biotech</span>
+<span>Research Workspace</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-element-gap py-2.5 rounded-lg bg-surface-container-high text-primary font-semibold hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px] stroke-[2px] font-variation-settings: 'FILL' 1;">description</span>
+<span>Documents</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-element-gap py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px] stroke-[2px]">compare_arrows</span>
+<span>Compare Reports</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-element-gap py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px] stroke-[2px]">database</span>
+<span>Knowledge Base</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-element-gap py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px] stroke-[2px]">query_stats</span>
+<span>Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-element-gap py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px] stroke-[2px]">ios_share</span>
+<span>Exports</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-element-gap py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px] stroke-[2px]">settings</span>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto border-t border-outline-variant/30 pt-4">
+<div class="flex items-center justify-between px-element-gap py-2 text-on-surface-variant font-metadata text-metadata">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">cloud_done</span>
+<span>Storage Status</span>
+</div>
+<span class="text-primary font-semibold">82%</span>
+</div>
+<div class="flex items-center gap-2 px-element-gap py-2 text-on-surface-variant font-metadata text-metadata">
+<span class="material-symbols-outlined text-[16px]">memory</span>
+<span>Model: GPT-4o</span>
+</div>
+<div class="mt-4 flex items-center gap-3 px-element-gap">
+<img alt="User profile" class="w-8 h-8 rounded-full ring-2 ring-surface-container-high object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDoIfHxqcakXNX7OOQbn0Cv3Od4iLsmlfPjbyglBuPwebP9Jw8DI0axtACY7MFgdtYDHXMnUfuz2-qjG3PLIVJED0P8ygLUaN2B0yfcrjhRJT1I6_CJnTuy53EZP6VQBZ6Y4Hh_omeOYuyzIyQZXV-V9vvZyiYsifh_p7wB3ZJhjfluq7bb9A76bJCVgi4_5EXcaHlz6de7NxK74BahlGBTkzBgEFB2br2frJWbK77g5AJ36HSrka34RlZKCpZGKAR_tkxEMCLIyGA"/>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface font-semibold">A. Reynolds</span>
+<span class="font-metadata text-metadata text-on-surface-variant">Lead Analyst</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-surface/80 backdrop-blur-md font-body-md text-body-md fixed top-0 right-0 w-full xl:w-[calc(100%-280px)] z-40 border-b border-outline-variant flat no shadows flex items-center justify-between h-16 px-container-padding transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-6">
+<button class="xl:hidden text-on-surface-variant hover:text-primary transition-opacity">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 w-72 rounded-lg border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary-container/30 focus:border-primary-container outline-none transition-all font-body-sm text-body-sm placeholder:text-on-surface-variant/60 text-on-surface" placeholder="Search documents, tickers, insights..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-6 h-full">
+<a class="h-full flex items-center text-on-surface-variant hover:text-primary transition-opacity font-medium" href="#">Tickers</a>
+<a class="h-full flex items-center text-on-surface-variant hover:text-primary transition-opacity font-medium" href="#">Quarters</a>
+<a class="h-full flex items-center text-on-surface-variant hover:text-primary transition-opacity font-medium" href="#">Models</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-opacity relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full ring-2 ring-surface border-none"></span>
+</button>
+<img alt="User avatar" class="w-8 h-8 rounded-full border border-outline-variant md:hidden object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrRyN-tQqMVDYOhneCXbBkAzziQM2gI4bs6Kn0UtOxhas7GZtf2u7WZsQmACDQPvjYuy7dqGSccOnt0rpP0e73SfVHeVnpXpFaXQCS2IuCDtLUluA0doEJtLaJAstNLCeYpZwJ99iu8mWJqREXx-YX8ro7VglURfnit0SuwPGpHyK4o6yA5o1UrpwGAaxFgQsB8IR-v-V2IiIEd8K8jhdGB4TjuQQb42IJF-3CVui2UF7G-T4rYVF8wyp--to9mN6RHbRifVyCawYf"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full xl:ml-[280px] pt-[80px] px-container-padding pb-section-margin overflow-y-auto">
+<div class="max-w-[1440px] mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-gutter">
+<div>
+<h1 class="font-display-metrics text-display-metrics text-on-surface mb-2 tracking-tight">Documents</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Upload and manage financial filings, earnings call transcripts, and internal research reports for RAG indexing.</p>
+</div>
+</div>
+<!-- Upload Area -->
+<div class="bg-surface-container-lowest border border-dashed border-outline-variant hover:border-primary-container/50 transition-colors duration-200 rounded-xl p-8 mb-section-margin flex flex-col items-center justify-center text-center group cursor-pointer">
+<div class="w-12 h-12 bg-surface-container-low text-primary-container rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<h3 class="font-section-title text-section-title text-on-surface mb-1">Upload Financial Document</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Drag and drop PDF, SEC XML, or DOCX files here, or click to browse.</p>
+<button class="bg-surface-container-lowest text-on-surface border border-outline-variant hover:bg-surface-container-low rounded-lg py-[10px] px-4 font-metadata text-metadata transition-colors duration-200">
+                    Browse Files
+                </button>
+</div>
+<!-- Document Table Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+<!-- Table Controls -->
+<div class="p-gutter border-b border-outline-variant/50 flex flex-col sm:flex-row justify-between items-center gap-4 bg-surface-bright/50">
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">filter_list</span>
+<input class="pl-9 pr-4 py-1.5 w-full rounded-md border border-outline-variant bg-surface focus:ring-1 focus:ring-primary-container focus:border-primary-container outline-none transition-all font-body-sm text-body-sm text-on-surface" placeholder="Filter documents..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Indexed: 142 Docs</span>
+</div>
+</div>
+<!-- Table Wrapper (Horizontal Scroll for mobile) -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-bright border-b border-outline-variant/60 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">
+<th class="py-3 px-4 w-1/4 font-semibold">Document Name</th>
+<th class="py-3 px-4 font-semibold">Ticker</th>
+<th class="py-3 px-4 font-semibold">Type</th>
+<th class="py-3 px-4 font-semibold">Quarter</th>
+<th class="py-3 px-4 font-semibold text-right">Pages</th>
+<th class="py-3 px-4 font-semibold">Upload Date</th>
+<th class="py-3 px-4 font-semibold">Status</th>
+<th class="py-3 px-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant/30">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors duration-150 group">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[20px]">picture_as_pdf</span>
+<span class="font-medium truncate max-w-[200px]">AAPL_10K_FY2023.pdf</span>
+</div>
+</td>
+<td class="py-4 px-4 font-medium text-primary">AAPL</td>
+<td class="py-4 px-4 text-on-surface-variant">10-K</td>
+<td class="py-4 px-4 text-on-surface-variant">FY23</td>
+<td class="py-4 px-4 text-right text-on-surface-variant tabular-nums">82</td>
+<td class="py-4 px-4 text-on-surface-variant">Oct 24, 2023</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#DCFCE7] text-[#16A34A]">
+                                        Indexed
+                                    </span>
+</td>
+<td class="py-4 px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors duration-150 group bg-surface-container-low/20 border-l-2 border-l-primary-container">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[20px]">picture_as_pdf</span>
+<span class="font-medium truncate max-w-[200px]">MSFT_Q1_2024_Earnings_Call.pdf</span>
+</div>
+</td>
+<td class="py-4 px-4 font-medium text-primary">MSFT</td>
+<td class="py-4 px-4 text-on-surface-variant">Transcript</td>
+<td class="py-4 px-4 text-on-surface-variant">Q1 '24</td>
+<td class="py-4 px-4 text-right text-on-surface-variant tabular-nums">34</td>
+<td class="py-4 px-4 text-on-surface-variant">Oct 25, 2023</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-primary-fixed text-on-primary-fixed">
+<span class="material-symbols-outlined text-[12px] mr-1 animate-spin">sync</span>
+                                        Processing
+                                    </span>
+</td>
+<td class="py-4 px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors duration-150 group">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[20px]">description</span>
+<span class="font-medium truncate max-w-[200px]">NVDA_8K_Product_Announcement.xml</span>
+</div>
+</td>
+<td class="py-4 px-4 font-medium text-primary">NVDA</td>
+<td class="py-4 px-4 text-on-surface-variant">8-K</td>
+<td class="py-4 px-4 text-on-surface-variant">Q3 '23</td>
+<td class="py-4 px-4 text-right text-on-surface-variant tabular-nums">12</td>
+<td class="py-4 px-4 text-on-surface-variant">Nov 02, 2023</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#DCFCE7] text-[#16A34A]">
+                                        Indexed
+                                    </span>
+</td>
+<td class="py-4 px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors duration-150 group">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[20px]">picture_as_pdf</span>
+<span class="font-medium truncate max-w-[200px]">TSLA_10Q_Q3_2023.pdf</span>
+</div>
+</td>
+<td class="py-4 px-4 font-medium text-primary">TSLA</td>
+<td class="py-4 px-4 text-on-surface-variant">10-Q</td>
+<td class="py-4 px-4 text-on-surface-variant">Q3 '23</td>
+<td class="py-4 px-4 text-right text-on-surface-variant tabular-nums">45</td>
+<td class="py-4 px-4 text-on-surface-variant">Oct 18, 2023</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#DCFCE7] text-[#16A34A]">
+                                        Indexed
+                                    </span>
+</td>
+<td class="py-4 px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors duration-150 group">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[20px]">article</span>
+<span class="font-medium truncate max-w-[200px]">Internal_Memo_Semiconductor_Supply.docx</span>
+</div>
+</td>
+<td class="py-4 px-4 font-medium text-on-surface-variant">—</td>
+<td class="py-4 px-4 text-on-surface-variant">Research</td>
+<td class="py-4 px-4 text-on-surface-variant">—</td>
+<td class="py-4 px-4 text-right text-on-surface-variant tabular-nums">8</td>
+<td class="py-4 px-4 text-on-surface-variant">Nov 10, 2023</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-error-container text-on-error-container">
+                                        Failed
+                                    </span>
+</td>
+<td class="py-4 px-4 text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination -->
+<div class="p-4 border-t border-outline-variant/40 flex items-center justify-between text-on-surface-variant font-metadata text-metadata bg-surface-bright/30">
+<span>Showing 1 to 5 of 142 entries</span>
+<div class="flex gap-1">
+<button class="p-1 rounded hover:bg-surface-container-low disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-7 h-7 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-medium">1</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container-low flex items-center justify-center font-medium">2</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container-low flex items-center justify-center font-medium">3</button>
+<span class="flex items-center justify-center px-1">...</span>
+<button class="w-7 h-7 rounded hover:bg-surface-container-low flex items-center justify-center font-medium">29</button>
+<button class="p-1 rounded hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

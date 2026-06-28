@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FinRAG - Exports &amp; Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#737686",
+                      "on-tertiary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#e0e3e5",
+                      "surface-container-highest": "#dce2f3",
+                      "surface-container": "#e7eefe",
+                      "error": "#ba1a1a",
+                      "inverse-on-surface": "#ebf1ff",
+                      "on-secondary-fixed": "#191c1e",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "tertiary-container": "#666d7f",
+                      "on-surface": "#151c27",
+                      "secondary-fixed": "#e0e3e5",
+                      "outline-variant": "#c3c6d7",
+                      "on-error-container": "#93000a",
+                      "on-surface-variant": "#434655",
+                      "surface-container-low": "#f0f3ff",
+                      "tertiary": "#4e5566",
+                      "primary-container": "#2563eb",
+                      "tertiary-fixed-dim": "#c0c6db",
+                      "primary-fixed": "#dbe1ff",
+                      "surface-tint": "#0053db",
+                      "on-tertiary-fixed": "#141b2b",
+                      "on-tertiary-container": "#ecf0ff",
+                      "surface-bright": "#f9f9ff",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "primary": "#004ac6",
+                      "surface-container-high": "#e2e8f8",
+                      "tertiary-fixed": "#dce2f7",
+                      "on-background": "#151c27",
+                      "on-primary": "#ffffff",
+                      "secondary-fixed-dim": "#c4c7c9",
+                      "on-primary-fixed": "#00174b",
+                      "surface-variant": "#dce2f3",
+                      "surface": "#f9f9ff",
+                      "on-error": "#ffffff",
+                      "on-primary-container": "#eeefff",
+                      "inverse-surface": "#2a313d",
+                      "background": "#f9f9ff",
+                      "secondary": "#5c5f61",
+                      "on-secondary-container": "#626567",
+                      "surface-dim": "#d3daea",
+                      "on-secondary": "#ffffff",
+                      "inverse-primary": "#b4c5ff",
+                      "on-secondary-fixed-variant": "#444749",
+                      "on-tertiary-fixed-variant": "#404758"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-padding": "32px",
+                      "gutter": "24px",
+                      "element-gap": "16px",
+                      "section-margin": "48px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "display-metrics": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "section-title": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-md": ["Inter"],
+                      "metadata": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-caps": ["Inter"]
+              },
+              "fontSize": {
+                      "display-metrics": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "section-title": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "metadata": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 20px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .card-surface {
+            background-color: #ffffff;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+        }
+        
+        /* Subtle intelligence border */
+        .ai-border {
+            border-left: 2px solid #2563EB;
+            background-color: #F8FAFC;
+        }
+        
+        /* Custom scrollbar for sidebar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex w-full h-screen overflow-hidden antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface dark:bg-surface font-body-md text-body-md fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant flex-col py-section-margin px-element-gap z-50">
+<div class="mb-section-margin px-element-gap flex items-center space-x-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold">F</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight leading-none">FinRAG</h1>
+<p class="font-metadata text-metadata text-on-surface-variant mt-1">Institutional Research</p>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary rounded-lg py-2.5 px-4 font-body-md text-body-md font-medium hover:bg-primary transition-colors flex items-center justify-center space-x-2 mb-8 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Analysis</span>
+</button>
+<div class="flex-1 overflow-y-auto pr-2 space-y-1">
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined opacity-70 group-hover:opacity-100 transition-opacity">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined opacity-70 group-hover:opacity-100 transition-opacity">biotech</span>
+<span>Research Workspace</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined opacity-70 group-hover:opacity-100 transition-opacity">description</span>
+<span>Documents</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined opacity-70 group-hover:opacity-100 transition-opacity">compare_arrows</span>
+<span>Compare Reports</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined opacity-70 group-hover:opacity-100 transition-opacity">database</span>
+<span>Knowledge Base</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined opacity-70 group-hover:opacity-100 transition-opacity">query_stats</span>
+<span>Analytics</span>
+</a>
+<!-- ACTIVE NAV ITEM based on Intent -->
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg bg-surface-container-high text-primary font-semibold cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">ios_share</span>
+<span>Exports</span>
+</a>
+<!-- SETTINGS as secondary active context or nearby -->
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 mt-4 border-t border-outline-variant pt-4" href="#">
+<span class="material-symbols-outlined opacity-70">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<div class="mt-auto pt-6 border-t border-outline-variant space-y-3">
+<div class="flex items-center space-x-3 px-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">cloud_done</span>
+<span class="font-metadata text-metadata">Storage Status</span>
+</div>
+<div class="flex items-center justify-between px-2 text-on-surface-variant">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-[16px]">memory</span>
+<span class="font-metadata text-metadata">Model: GPT-4o</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+</div>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="hidden md:flex bg-surface/80 dark:bg-surface/80 backdrop-blur-md font-body-md text-body-md fixed top-0 right-0 w-[calc(100%-280px)] z-40 border-b border-outline-variant flex items-center justify-between h-16 px-container-padding transition-all duration-300 ease-in-out">
+<!-- Left: Search / Context (Search Bar on_left as per JSON, but styled minimally) -->
+<div class="flex-1 flex items-center max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60">search</span>
+<input class="w-full pl-10 pr-4 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search insights, tickers, or reports..." type="text"/>
+</div>
+</div>
+<!-- Center: Links -->
+<nav class="flex items-center space-x-8 ml-8">
+<a class="text-on-surface-variant hover:text-primary transition-opacity py-4" href="#">Tickers</a>
+<a class="text-on-surface-variant hover:text-primary transition-opacity py-4" href="#">Quarters</a>
+<a class="text-on-surface-variant hover:text-primary transition-opacity py-4" href="#">Models</a>
+</nav>
+<!-- Right: Actions -->
+<div class="flex items-center space-x-4 ml-8">
+<button class="text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden cursor-pointer">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A minimal, professional corporate avatar graphic featuring subtle abstract geometric shapes in cool blue and grey tones, conveying trust and enterprise security in a high-key light mode environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIsrX9Bwtc0mjGBoc7dZlFHjVTJRpRLxg3quYy8P4tP4JKOkD8G4yR8DgwEVv0fBc73g8x7RAcXRKaSXhqu7wrVIDrrxBySIFghQKjL7SvrA0T4rTzOtiJyQ-rqsfoGa2DvKLZOmGJveSPyElm3Cpt3KIogZRbv4zOmshpZ18STHtvcd5u93sp4B8pOv-RIvYnxt7ziLtioBLA1mKY7BGkMEbzPjcyMOSZOLA4LhXMy2hi8XudyTUxWK6knQJ9HeY2QT8JCkk3UlIM"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full md:ml-[280px] md:mt-16 h-full overflow-y-auto px-container-padding py-section-margin bg-background">
+<!-- Page Header -->
+<div class="max-w-7xl mx-auto mb-10">
+<h2 class="font-display-metrics text-display-metrics text-on-surface">Export Center &amp; Settings</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-2xl">Configure your data outputs and manage your workspace preferences.</p>
+</div>
+<div class="max-w-7xl mx-auto grid grid-cols-12 gap-gutter pb-24">
+<!-- EXPORT CENTER (Occupies Top Row, 12 cols total, using grid for cards) -->
+<div class="col-span-12 mb-8">
+<div class="flex items-center mb-6 space-x-2">
+<span class="material-symbols-outlined text-primary">download</span>
+<h3 class="font-section-title text-section-title text-on-surface">Export Formats</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-element-gap">
+<!-- Export Card 1: PDF Memo -->
+<div class="card-surface p-6 flex flex-col hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary">picture_as_pdf</span>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-1">PDF Investment Memo</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 flex-1">Standardized institutional format with automated charting.</p>
+<button class="font-label-caps text-label-caps text-primary uppercase tracking-wider flex items-center">
+                            Generate Template <span class="material-symbols-outlined text-[14px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<!-- Export Card 2: Markdown -->
+<div class="card-surface p-6 flex flex-col hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary">markdown</span>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-1">Markdown Summary</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 flex-1">Clean, structural text for Notion, Roam, or internal wikis.</p>
+<button class="font-label-caps text-label-caps text-primary uppercase tracking-wider flex items-center">
+                            Export Latest <span class="material-symbols-outlined text-[14px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<!-- Export Card 3: Excel -->
+<div class="card-surface p-6 flex flex-col hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary">table_view</span>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-1">Excel Data Dump</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 flex-1">Raw financials with formula linkages and formatting.</p>
+<button class="font-label-caps text-label-caps text-primary uppercase tracking-wider flex items-center">
+                            Download XLSX <span class="material-symbols-outlined text-[14px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<!-- Export Card 4: CSV -->
+<div class="card-surface p-6 flex flex-col hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary">csv</span>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-1">CSV Raw Tables</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 flex-1">Unstyled tabular data for programmatic ingestion.</p>
+<button class="font-label-caps text-label-caps text-primary uppercase tracking-wider flex items-center">
+                            Extract Data <span class="material-symbols-outlined text-[14px] ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SETTINGS SECTION (Bento style grid below) -->
+<div class="col-span-12 pt-8 border-t border-outline-variant">
+<div class="flex items-center mb-6 space-x-2">
+<span class="material-symbols-outlined text-primary">settings</span>
+<h3 class="font-section-title text-section-title text-on-surface">Workspace Settings</h3>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column (Profile & Subscription) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- User Profile Card -->
+<div class="card-surface p-6">
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-4">User Profile</h4>
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-16 h-16 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden">
+<img alt="Large avatar" class="w-full h-full object-cover" data-alt="A clean, minimalist abstract geometric pattern in light grey and pale blue, serving as a placeholder for a user avatar in a professional enterprise software interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu2EHsdugxVbu59i6iCtmalkQSvIHpmtifn2cW7wA0BxVtoXpxFpQuc3WVw8oCWrYZOZ_m7-lLN5xXFWrS_UttomhsctLyQPkO8HIAHROdvPR8R57aEQxM1HTLf5gnb-kBOyaHVCvHy2QU42RrwX6jeeYPd7t7PKrB08GhnhjlS0ddww9_YgQo2YiUPWHgg3U1BttpHs9fp_u603TA-3blyTVoMt0jz1qcrjTVVB8sB-YJseNpagGlfctwH_ygBXV5jh_cupNXaQpC"/>
+</div>
+<div>
+<div class="font-body-md text-body-md font-medium text-on-surface">Analyst Alpha</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">alpha@finrag.institutions.com</div>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Display Name</label>
+<input class="w-full px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg font-body-sm text-body-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" type="text" value="Analyst Alpha"/>
+</div>
+<button class="w-full bg-surface text-on-surface border border-outline-variant rounded-lg py-2 font-body-sm text-body-sm font-medium hover:bg-surface-container-low transition-colors">
+                                    Update Profile
+                                </button>
+</div>
+</div>
+<!-- Subscription Tier Card -->
+<div class="card-surface p-6 ai-border">
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-2 flex justify-between items-center">
+                                Subscription Tier
+                                <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider">Active</span>
+</h4>
+<div class="my-4">
+<span class="font-headline-lg text-headline-lg text-on-surface">Enterprise</span>
+</div>
+<ul class="space-y-2 mb-6">
+<li class="flex items-start space-x-2 font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-green-600 mt-0.5">check_circle</span>
+<span>Unlimited Documents</span>
+</li>
+<li class="flex items-start space-x-2 font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-green-600 mt-0.5">check_circle</span>
+<span>Priority AI Routing</span>
+</li>
+</ul>
+<button class="w-full text-primary border border-outline-variant rounded-lg py-2 font-body-sm text-body-sm font-medium hover:bg-surface-container transition-colors bg-white">
+                                Manage Billing
+                            </button>
+</div>
+</div>
+<!-- Right Column (API & AI Models) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-gutter">
+<!-- AI Model Selection -->
+<div class="card-surface p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface">AI Model Selection</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Choose the underlying LLM for synthesis and extraction.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+<!-- Option 1 (Selected) -->
+<label class="relative flex cursor-pointer rounded-lg border bg-surface-container-low p-4 shadow-sm border-primary ring-1 ring-primary focus:outline-none">
+<input checked="" class="sr-only" name="ai_model" type="radio" value="gpt4o"/>
+<span class="flex flex-1">
+<span class="flex flex-col">
+<span class="block font-body-md text-body-md font-medium text-on-surface flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary text-[18px]">memory</span>
+<span>GPT-4o</span>
+</span>
+<span class="mt-1 flex items-center font-body-sm text-body-sm text-on-surface-variant">Default. Best balance of speed and complex reasoning.</span>
+</span>
+</span>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</label>
+<!-- Option 2 -->
+<label class="relative flex cursor-pointer rounded-lg border border-outline-variant bg-white p-4 shadow-sm hover:bg-surface-container-lowest focus:outline-none opacity-80">
+<input class="sr-only" name="ai_model" type="radio" value="claude35"/>
+<span class="flex flex-1">
+<span class="flex flex-col">
+<span class="block font-body-md text-body-md font-medium text-on-surface flex items-center space-x-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">psychology</span>
+<span>Claude 3.5</span>
+</span>
+<span class="mt-1 flex items-center font-body-sm text-body-sm text-on-surface-variant">Superior for dense document analysis and writing.</span>
+</span>
+</span>
+</label>
+<!-- Option 3 -->
+<label class="relative flex cursor-pointer rounded-lg border border-outline-variant bg-white p-4 shadow-sm hover:bg-surface-container-lowest focus:outline-none opacity-80">
+<input class="sr-only" name="ai_model" type="radio" value="gemini"/>
+<span class="flex flex-1">
+<span class="flex flex-col">
+<span class="block font-body-md text-body-md font-medium text-on-surface flex items-center space-x-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">hub</span>
+<span>Gemini 1.5 Pro</span>
+</span>
+<span class="mt-1 flex items-center font-body-sm text-body-sm text-on-surface-variant">Massive context window for multi-quarter comparisons.</span>
+</span>
+</span>
+</label>
+</div>
+</div>
+<!-- API Keys -->
+<div class="card-surface p-6">
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-1">API Keys</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Manage external integrations and programmatic access.</p>
+<div class="space-y-4">
+<!-- Key Row 1 -->
+<div class="flex items-center justify-between p-4 border border-outline-variant rounded-lg bg-surface-container-lowest">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-medium text-on-surface">Production Analytics Key</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mt-1">sk-prod-••••••••••••8f9a</span>
+</div>
+<div class="flex items-center space-x-2">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-low" title="Copy">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors rounded hover:bg-error-container" title="Revoke">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Key Row 2 -->
+<div class="flex items-center justify-between p-4 border border-outline-variant rounded-lg bg-surface-container-lowest">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-medium text-on-surface">Data Ingestion Webhook</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mt-1">wh-ingest-••••••••••••2b1c</span>
+</div>
+<div class="flex items-center space-x-2">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-low" title="Copy">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors rounded hover:bg-error-container" title="Revoke">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-6">
+<button class="bg-surface text-on-surface border border-outline-variant rounded-lg py-2 px-4 font-body-sm text-body-sm font-medium hover:bg-surface-container-low transition-colors flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Generate New Key</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

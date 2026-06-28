@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FinRAG - Verification Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {outline: "#737688", "on-tertiary": "#ffffff", "error-container": "#ffdad6", "secondary-container": "#dfe0e0", "surface-container-highest": "#e2e2e2", "surface-container": "#eeeeee", error: "#ba1a1a", "inverse-on-surface": "#f1f1f1", "on-secondary-fixed": "#1a1c1c", "on-primary-fixed-variant": "#0038b7", "tertiary-container": "#c12b00", "on-surface": "#1b1b1b", "secondary-fixed": "#e2e2e2", "outline-variant": "#c3c5d9", "on-error-container": "#93000a", "on-surface-variant": "#434656", "surface-container-low": "#f3f3f3", tertiary: "#961f00", "primary-container": "#0051ff", "tertiary-fixed-dim": "#ffb4a2", "primary-fixed": "#dde1ff", "surface-tint": "#004bee", "on-tertiary-fixed": "#3c0700", "on-tertiary-container": "#ffdcd4", "surface-bright": "#f9f9f9", "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#b7c4ff", primary: "#003dc7", "surface-container-high": "#e8e8e8", "tertiary-fixed": "#ffdad2", "on-background": "#1b1b1b", "on-primary": "#ffffff", "secondary-fixed-dim": "#c6c6c7", "on-primary-fixed": "#001452", "surface-variant": "#e2e2e2", surface: "#f9f9f9", "on-error": "#ffffff", "on-primary-container": "#dee2ff", "inverse-surface": "#303030", background: "#f9f9f9", secondary: "#5d5f5f", "on-secondary-container": "#616363", "surface-dim": "#dadada", "on-secondary": "#ffffff", "inverse-primary": "#b7c4ff", "on-secondary-fixed-variant": "#454747", "on-tertiary-fixed-variant": "#8a1c00", "success-container": "#DCFCE7", "on-success": "#16A34A"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-padding": "32px", gutter: "24px", "element-gap": "16px", "section-margin": "48px", base: "4px"}, fontFamily: {"display-metrics": ["Inter"], "headline-lg": ["Inter"], "section-title": ["Inter"], "headline-lg-mobile": ["Inter"], "body-md": ["Inter"], metadata: ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"display-metrics": ["36px", {lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "600"}], "headline-lg": ["28px", {lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "600"}], "section-title": ["18px", {lineHeight: "28px", fontWeight: "600"}], "headline-lg-mobile": ["24px", {lineHeight: "32px", fontWeight: "600"}], "body-md": ["14px", {lineHeight: "20px", fontWeight: "400"}], metadata: ["12px", {lineHeight: "16px", fontWeight: "500"}], "body-sm": ["13px", {lineHeight: "18px", fontWeight: "400"}], "label-caps": ["11px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600"}]}}}};</script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1; }
+        
+        .trust-meter circle {
+            transition: stroke-dashoffset 1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface dark:bg-surface fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant flex-col py-section-margin px-element-gap z-50">
+<div class="mb-12 px-4">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">FinRAG</h1>
+<p class="font-metadata text-metadata text-on-surface-variant">Institutional Research</p>
+</div>
+<button class="bg-primary-container text-on-primary w-full py-2 px-4 rounded-lg font-body-md text-body-md font-medium mb-8 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+            New Analysis
+        </button>
+<ul class="flex-1 space-y-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-surface-container-high text-primary font-semibold transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">biotech</span>
+                    Verification
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">description</span>
+                    Documents
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">compare_arrows</span>
+                    Compare Reports
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">database</span>
+                    Knowledge Base
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+                    Analytics
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">ios_share</span>
+                    Exports
+                </a>
+</li>
+</ul>
+<div class="mt-auto pt-8 border-t border-outline-variant space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined text-[18px]">cloud_done</span>
+                Storage Status
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined text-[18px]">memory</span>
+                Model: GPT-4o
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-metadata text-metadata mt-4" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+                Settings
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-[280px] min-h-screen flex flex-col relative">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-surface/80 backdrop-blur-md fixed top-0 right-0 w-full md:w-[calc(100%-280px)] z-40 border-b border-outline-variant flex items-center justify-between h-16 px-container-padding transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-8">
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<nav class="hidden md:flex gap-6 font-body-md text-body-md">
+<a class="text-on-surface-variant hover:text-primary transition-opacity" href="#">Tickers</a>
+<a class="text-on-surface-variant hover:text-primary transition-opacity" href="#">Quarters</a>
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Models</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-sm font-body-sm focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all w-64" placeholder="Search insights..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small, professional circular avatar portrait of a financial analyst, brightly lit, high quality, corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAOoUBUBHPxI9aAM-yXDjIwaBZuhhiUXnCuKfZWwF2lOcUfHrWbIjU3ryXgq2BR33JLh1QGQkTXPPCSVMHZlY_NARYWObzhcyI7MlGUpgslAAmnBb0Lo1t0qjmTQxNyY46MaBDoA1aI6k7f1CtGVI5EyZi2pCBtm74aWZAmgbsNSKs6mFGas6t-bvSszJ4gPFcLvi4kabEIAhssXLlYVxZD73RiAqG2GTL1zrc_3Uy-FsRqrOxyqoBCu2qrUkrBuTWLoxgu5ha8XLn"/>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="pt-24 px-container-padding pb-section-margin max-w-7xl mx-auto w-full">
+<div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg md:font-display-metrics md:text-display-metrics text-on-surface mb-2">Verification Dashboard</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time trust metrics and validation status for generative outputs.</p>
+</div>
+<div class="flex items-center gap-2 bg-success-container px-3 py-1.5 rounded-lg border border-on-success/20">
+<span class="material-symbols-outlined filled text-on-success text-[16px]">verified</span>
+<span class="font-metadata text-metadata text-on-success font-semibold">System Operational</span>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-gutter">
+<!-- Trust Score (Spans 4) -->
+<div class="md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col items-center justify-center relative overflow-hidden">
+<h3 class="font-section-title text-section-title text-on-surface absolute top-6 left-6">System Trust</h3>
+<div class="relative w-48 h-48 mt-8 flex items-center justify-center trust-meter">
+<!-- Background Circle -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-surface-container-highest" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="8"></circle>
+<!-- Progress Circle (98%) -->
+<circle class="text-primary-container" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-dasharray="283" stroke-dashoffset="5.66" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center">
+<span class="font-display-metrics text-display-metrics text-on-surface leading-none">98<span class="text-[20px]">%</span></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1">Confidence</span>
+</div>
+</div>
+</div>
+<!-- Metrics Grid (Spans 8) -->
+<div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Math Validation -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col justify-between">
+<div class="flex items-start justify-between mb-4">
+<div class="p-2 bg-surface-container rounded-lg text-primary">
+<span class="material-symbols-outlined">calculate</span>
+</div>
+<span class="bg-success-container text-on-success font-metadata text-metadata px-2 py-1 rounded">Verified</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Math Validation</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">100%</p>
+</div>
+</div>
+<!-- Citation Accuracy -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col justify-between">
+<div class="flex items-start justify-between mb-4">
+<div class="p-2 bg-surface-container rounded-lg text-primary">
+<span class="material-symbols-outlined">format_quote</span>
+</div>
+<span class="bg-success-container text-on-success font-metadata text-metadata px-2 py-1 rounded">High</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Citation Accuracy</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">99.2%</p>
+</div>
+</div>
+<!-- Hallucination Check -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute inset-y-0 left-0 w-1 bg-on-success"></div>
+<div class="flex items-start justify-between mb-4">
+<div class="p-2 bg-surface-container rounded-lg text-primary">
+<span class="material-symbols-outlined">psychiatry</span>
+</div>
+<span class="bg-success-container text-on-success font-metadata text-metadata px-2 py-1 rounded">Clean</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Hallucination Risk</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">Negligible</p>
+</div>
+</div>
+<!-- Logic Consistency -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col justify-between">
+<div class="flex items-start justify-between mb-4">
+<div class="p-2 bg-surface-container rounded-lg text-primary">
+<span class="material-symbols-outlined">account_tree</span>
+</div>
+<span class="bg-success-container text-on-success font-metadata text-metadata px-2 py-1 rounded">Optimal</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Logic Consistency</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">High</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Verification Log Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden mt-8">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface/50">
+<h3 class="font-section-title text-section-title text-on-surface">Recent Verification Log</h3>
+<button class="text-primary-container font-metadata text-metadata hover:underline flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-bright">
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant font-semibold">Timestamp</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant font-semibold">Output Summary</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant font-semibold">Source Documents</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant font-semibold">Validation Status</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant/50">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-4 whitespace-nowrap text-on-surface-variant">10:42 AM, Today</td>
+<td class="px-4 py-4 max-w-xs truncate">Q3 Earnings Summary - AAPL</td>
+<td class="px-4 py-4 text-primary-container">10-Q (2023 Q3), Call Transcript</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1 bg-success-container text-on-success px-2 py-0.5 rounded text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Verified
+                                    </span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="px-4 py-4 whitespace-nowrap text-on-surface-variant">09:15 AM, Today</td>
+<td class="px-4 py-4 max-w-xs truncate">Competitor Analysis: TSLA vs BYD</td>
+<td class="px-4 py-4 text-primary-container">Multiple Analyst Reports (5)</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1 bg-success-container text-on-success px-2 py-0.5 rounded text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Verified
+                                    </span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-4 whitespace-nowrap text-on-surface-variant">Yesterday</td>
+<td class="px-4 py-4 max-w-xs truncate">Macro: Inflation Impact on Tech</td>
+<td class="px-4 py-4 text-primary-container">Fed Minutes, CPI Data</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center gap-1 bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded text-xs font-medium">
+<span class="material-symbols-outlined text-[14px]">pending</span> Review Recommended
+                                    </span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</body></html>

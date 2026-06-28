@@ -125,12 +125,21 @@ Upload and process a document (e.g., Apple's Q3 10-Q):
 poetry run python -m finrag.parser.ingest --file path/to/apple_q3_10q.pdf --ticker AAPL --quarter Q3 --year 2026
 ```
 
-### Step 5: Launch the Interactive UI
-Run the local interface for testing QA and document comparisons:
+### Step 5: Launch the FastAPI Backend API Server
+Start the uvicorn API backend server:
 ```bash
-poetry run python -m finrag.ui.app
+poetry run uvicorn finrag.main:app --port 8000
 ```
-Access the dashboard locally at `http://localhost:7860`.
+Access the REST API documentations at `http://127.0.0.1:8000/docs`.
+
+### Step 6: Launch the React Frontend Dashboard
+Compile and run the interactive UI dashboard:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Access the dashboard workspace locally at `http://localhost:5173`.
 
 ---
 

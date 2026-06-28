@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FinRAG Research Workspace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {outline: "#737688", "on-tertiary": "#ffffff", "error-container": "#ffdad6", "secondary-container": "#dfe0e0", "surface-container-highest": "#e2e2e2", "surface-container": "#eeeeee", error: "#ba1a1a", "inverse-on-surface": "#f1f1f1", "on-secondary-fixed": "#1a1c1c", "on-primary-fixed-variant": "#0038b7", "tertiary-container": "#c12b00", "on-surface": "#1b1b1b", "secondary-fixed": "#e2e2e2", "outline-variant": "#c3c5d9", "on-error-container": "#93000a", "on-surface-variant": "#434656", "surface-container-low": "#f3f3f3", tertiary: "#961f00", "primary-container": "#0051ff", "tertiary-fixed-dim": "#ffb4a2", "primary-fixed": "#dde1ff", "surface-tint": "#004bee", "on-tertiary-fixed": "#3c0700", "on-tertiary-container": "#ffdcd4", "surface-bright": "#f9f9f9", "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#b7c4ff", primary: "#003dc7", "surface-container-high": "#e8e8e8", "tertiary-fixed": "#ffdad2", "on-background": "#1b1b1b", "on-primary": "#ffffff", "secondary-fixed-dim": "#c6c6c7", "on-primary-fixed": "#001452", "surface-variant": "#e2e2e2", surface: "#f9f9f9", "on-error": "#ffffff", "on-primary-container": "#dee2ff", "inverse-surface": "#303030", background: "#f9f9f9", secondary: "#5d5f5f", "on-secondary-container": "#616363", "surface-dim": "#dadada", "on-secondary": "#ffffff", "inverse-primary": "#b7c4ff", "on-secondary-fixed-variant": "#454747", "on-tertiary-fixed-variant": "#8a1c00"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"container-padding": "32px", gutter: "24px", "element-gap": "16px", "section-margin": "48px", base: "4px"}, fontFamily: {"display-metrics": ["Inter"], "headline-lg": ["Inter"], "section-title": ["Inter"], "headline-lg-mobile": ["Inter"], "body-md": ["Inter"], metadata: ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"display-metrics": ["36px", {lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "600"}], "headline-lg": ["28px", {lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "600"}], "section-title": ["18px", {lineHeight: "28px", fontWeight: "600"}], "headline-lg-mobile": ["24px", {lineHeight: "32px", fontWeight: "600"}], "body-md": ["14px", {lineHeight: "20px", fontWeight: "400"}], metadata: ["12px", {lineHeight: "16px", fontWeight: "500"}], "body-sm": ["13px", {lineHeight: "18px", fontWeight: "400"}], "label-caps": ["11px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600"}]}}}};</script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .ai-message {
+            background-color: theme('colors.surface-container-lowest');
+            border-left: 2px solid theme('colors.primary-container');
+        }
+        .pdf-highlight {
+            background-color: rgba(37, 99, 235, 0.1);
+            border: 1px solid theme('colors.primary-container');
+        }
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant');
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+      </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[280px] bg-surface dark:bg-surface border-r border-outline-variant flex flex-col h-full py-section-margin px-element-gap z-50">
+<div class="mb-8 px-4 flex items-center space-x-3">
+<span class="font-headline-lg text-headline-lg font-bold text-primary">FinRAG</span>
+<span class="text-xs text-on-surface-variant uppercase tracking-widest font-semibold mt-1">Institutional Research</span>
+</div>
+<button class="w-full bg-primary-container text-on-primary py-2 px-4 rounded-lg font-body-md text-body-md mb-8 flex items-center justify-center space-x-2 hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Analysis</span>
+</button>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center space-x-3 px-4 py-2 rounded-md font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 300;">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-4 py-2 rounded-md font-body-md text-body-md bg-surface-container-high text-primary font-semibold cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 300, 'FILL' 1;">biotech</span>
+<span>Research Workspace</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-4 py-2 rounded-md font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 300;">description</span>
+<span>Documents</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-4 py-2 rounded-md font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 300;">compare_arrows</span>
+<span>Compare Reports</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-4 py-2 rounded-md font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 300;">database</span>
+<span>Knowledge Base</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-4 py-2 rounded-md font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 300;">query_stats</span>
+<span>Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-4 py-2 rounded-md font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 300;">ios_share</span>
+<span>Exports</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-4 py-2 rounded-md font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 300;">settings</span>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto border-t border-outline-variant pt-4 space-y-2">
+<div class="flex items-center justify-between px-4 text-metadata font-metadata text-on-surface-variant">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px]">cloud_done</span>
+<span>Storage Status</span>
+</div>
+<span class="text-xs">85%</span>
+</div>
+<div class="flex items-center space-x-2 px-4 text-metadata font-metadata text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">memory</span>
+<span>Model: GPT-4o</span>
+</div>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] z-40 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-outline-variant flex items-center justify-between h-16 px-container-padding transition-all duration-300 ease-in-out">
+<div class="flex items-center space-x-6">
+<div class="relative w-64 hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-md py-1.5 pl-9 pr-3 text-body-sm font-body-sm focus:border-primary-container focus:ring-1 focus:ring-primary-container/20 transition-all outline-none text-on-surface placeholder:text-on-surface-variant" placeholder="Search workspace..." type="text"/>
+</div>
+<nav class="hidden md:flex items-center space-x-6">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Tickers</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Quarters</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Models</a>
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-on-surface-variant hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden cursor-pointer">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a financial analyst in a modern office, softly lit, wearing a dark blazer over a crisp white shirt. The background is a slightly out of focus modern high rise office space with glass walls. High fidelity, minimalist corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK-q4FHYkOYVYnUgo9RPpZsQqYyLJq4gASSGr72hA8JDRWV9QcAUdh6szekMKcYhZUaTS3Dn4RRqpGTAf5a_knVH5UQhmLm4q6jsAQ9MBE3XkwQZyBtRIXA2uljB-2pY31VX68FQJkPuRryRfunQ_JL2YLXOqB0FYterRO9Hgzy0cyrEN8A1fC3Or9bEq0WSHBa__4kCw5pIqqapcH631qvTb7GH8tveFCZrkWblDzpdlo_KAPbYw7yycsIiM46VSzRvUp514-qpVI"/>
+</div>
+</div>
+</header>
+<!-- Main Content Workspace (Three Panel) -->
+<main class="ml-[280px] pt-16 flex h-full w-[calc(100%-280px)]">
+<!-- Panel 1: Document Navigator (Left) -->
+<aside class="w-1/4 min-w-[250px] max-w-[320px] border-r border-outline-variant bg-surface-bright flex flex-col h-full overflow-hidden shrink-0">
+<div class="p-4 border-b border-outline-variant">
+<h2 class="font-section-title text-section-title text-on-surface mb-4">Source Documents</h2>
+<!-- Filters -->
+<div class="space-y-3">
+<div class="flex items-center justify-between bg-surface-container-lowest border border-outline-variant rounded p-2 cursor-pointer hover:border-outline transition-colors">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">Ticker</span>
+<div class="flex items-center space-x-2">
+<span class="font-body-sm text-body-sm text-on-surface font-semibold">AAPL</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest border border-outline-variant rounded p-2 cursor-pointer hover:border-outline transition-colors">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">Quarter</span>
+<div class="flex items-center space-x-2">
+<span class="font-body-sm text-body-sm text-on-surface font-semibold">Q3 2023</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Document List -->
+<div class="flex-1 overflow-y-auto p-4">
+<div class="space-y-4">
+<!-- Doc Item -->
+<div>
+<div class="flex items-start space-x-2 mb-2">
+<span class="material-symbols-outlined text-primary-container text-[18px] mt-0.5" style="font-variation-settings: 'FILL' 1;">description</span>
+<div>
+<h3 class="font-body-sm text-body-sm font-semibold text-on-surface">10-Q Filing</h3>
+<p class="font-metadata text-metadata text-on-surface-variant">Filed: Aug 4, 2023</p>
+</div>
+</div>
+<div class="ml-6 space-y-1 border-l-2 border-surface-container-high pl-3">
+<button class="w-full text-left py-1 font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors flex items-center justify-between">
+<span>MD&amp;A</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="w-full text-left py-1 font-body-sm text-body-sm text-primary font-semibold flex items-center justify-between bg-surface-container-low px-2 rounded -ml-2">
+<span>Risk Factors</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="w-full text-left py-1 font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors flex items-center justify-between">
+<span>Financial Statements</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Doc Item -->
+<div>
+<div class="flex items-start space-x-2 mb-2">
+<span class="material-symbols-outlined text-tertiary text-[18px] mt-0.5">description</span>
+<div>
+<h3 class="font-body-sm text-body-sm font-semibold text-on-surface">Earnings Call Transcript</h3>
+<p class="font-metadata text-metadata text-on-surface-variant">Date: Aug 3, 2023</p>
+</div>
+</div>
+<div class="ml-6 space-y-1 border-l-2 border-surface-container-high pl-3">
+<button class="w-full text-left py-1 font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors flex items-center justify-between">
+<span>Prepared Remarks</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="w-full text-left py-1 font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors flex items-center justify-between">
+<span>Q&amp;A</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Panel 2: AI Conversation Thread (Center) -->
+<section class="flex-1 flex flex-col min-w-0 bg-surface-container-lowest relative z-10 shadow-[0_0_15px_rgba(0,0,0,0.02)] border-r border-outline-variant">
+<div class="p-4 border-b border-outline-variant flex items-center justify-between bg-surface-bright">
+<h1 class="font-section-title text-section-title text-on-surface">Analysis Thread</h1>
+<div class="flex space-x-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors" title="Export Thread">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors" title="Clear Thread">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+</button>
+</div>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-gutter space-y-6">
+<!-- User Message -->
+<div class="flex justify-end">
+<div class="bg-surface-container text-on-surface p-4 rounded-xl rounded-tr-none max-w-[85%] border border-outline-variant">
+<p class="font-body-sm text-body-sm">Summarize the key updates in Apple's supply chain risk factors for Q3 2023, specifically focusing on semiconductor availability.</p>
+</div>
+</div>
+<!-- AI Response -->
+<div class="flex justify-start">
+<div class="ai-message p-5 rounded-xl rounded-tl-none max-w-[90%] border border-outline-variant/50 shadow-sm relative group">
+<!-- Header with confidence -->
+<div class="flex items-center justify-between mb-3 border-b border-outline-variant/30 pb-2">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-caps text-label-caps text-primary-container tracking-wider">AI Insight</span>
+</div>
+<div class="flex items-center space-x-1 bg-[#DCFCE7] text-[#16A34A] px-2 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+<span>High Confidence (98%)</span>
+</div>
+</div>
+<!-- Content -->
+<div class="font-body-sm text-body-sm text-on-surface space-y-3 leading-relaxed">
+<p>Based on the Q3 2023 10-Q filing, Apple highlights persistent vulnerabilities in its semiconductor supply chain, though the tone suggests a stabilization compared to prior quarters.</p>
+<p>Key points include:</p>
+<ul class="list-disc pl-5 space-y-1 text-on-surface-variant">
+<li><strong>Concentration Risk:</strong> The company continues to rely on a limited number of suppliers for critical semiconductor components, maintaining that disruptions could materially affect product margins <a class="text-primary-container hover:underline font-semibold" href="#">[1]</a>.</li>
+<li><strong>Geopolitical Factors:</strong> Newly added language emphasizes that geopolitical tensions, particularly regarding trade regulations and export controls affecting silicon manufacturing hubs, pose a heightened risk to timely procurement <a class="text-primary-container hover:underline font-semibold" href="#">[2]</a>.</li>
+</ul>
+</div>
+<!-- Actions (Hover) -->
+<div class="absolute -bottom-3 right-4 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-lowest border border-outline-variant rounded-md shadow-sm p-1">
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors" title="Copy text">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors" title="Regenerate">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 border-t border-outline-variant bg-surface-bright">
+<div class="relative flex items-center">
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-4 pr-12 text-body-sm font-body-sm focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none resize-none text-on-surface placeholder:text-on-surface-variant shadow-sm" placeholder="Ask about the financial data..." rows="1"></textarea>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary-container text-on-primary rounded-md hover:bg-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+<div class="flex justify-between items-center mt-2 px-1">
+<span class="text-[10px] text-on-surface-variant font-metadata">Press Enter to send, Shift+Enter for new line.</span>
+<div class="flex space-x-3 text-[11px] text-on-surface-variant font-metadata">
+<span class="flex items-center"><span class="material-symbols-outlined text-[12px] mr-1">attach_file</span> Add context</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Panel 3: Interactive Document Viewer (Right) -->
+<aside class="w-[35%] min-w-[300px] max-w-[500px] bg-[#e5e5e5] flex flex-col h-full relative z-0">
+<!-- Viewer Toolbar -->
+<div class="h-12 border-b border-outline-variant bg-surface flex items-center justify-between px-3 shadow-sm shrink-0">
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<span class="font-label-caps text-label-caps bg-surface-container px-2 py-1 rounded">AAPL 10-Q Q3 2023</span>
+<span class="font-body-sm text-body-sm">Pg. 42 / 78</span>
+</div>
+<div class="flex items-center space-x-1 border border-outline-variant rounded bg-surface-container-lowest">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors border-r border-outline-variant" title="Zoom Out">
+<span class="material-symbols-outlined text-[16px]">zoom_out</span>
+</button>
+<span class="px-2 font-metadata text-metadata text-on-surface text-[11px]">100%</span>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors border-l border-outline-variant" title="Zoom In">
+<span class="material-symbols-outlined text-[16px]">zoom_in</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors border-l border-outline-variant" title="Fit to Width">
+<span class="material-symbols-outlined text-[16px]">fit_screen</span>
+</button>
+</div>
+</div>
+<!-- PDF Page Area -->
+<div class="flex-1 overflow-auto p-4 flex justify-center bg-[#f0f0f0] relative">
+<!-- Mock PDF Page -->
+<div class="bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] w-full max-w-[800px] h-[1000px] relative border border-outline-variant/30 p-8">
+<!-- Fake Document Content -->
+<h3 class="font-section-title text-section-title text-on-surface mb-6 border-b border-outline pb-2">Item 1A. Risk Factors</h3>
+<div class="space-y-4 font-body-sm text-body-sm text-on-surface-variant leading-relaxed text-justify">
+<p>The Company’s business, financial condition and operating results can be affected by a number of factors, whether currently known or unknown, including but not limited to those described below. Any one or more of such factors could directly or indirectly cause the Company’s actual financial condition and operating results to vary materially from past, or from anticipated future, financial condition and operating results.</p>
+<h4 class="font-semibold text-on-surface mt-6">Macroeconomic and Industry Risks</h4>
+<p>The Company’s global operations are subject to complex and changing economic, political and regulatory conditions. Global economic conditions could materially adversely affect the Company. The Company’s operations and performance depend significantly on global and regional economic conditions.</p>
+<!-- Highlighted bounding box corresponding to citation [1] -->
+<div class="pdf-highlight p-1 -m-1 rounded relative group cursor-pointer mt-4">
+<span class="absolute -left-6 top-1 text-primary-container font-label-caps text-[9px] bg-primary-fixed px-1 rounded">[1]</span>
+<p class="text-on-surface relative z-10"><strong class="font-semibold">Supply Chain Vulnerabilities:</strong> The Company relies on component suppliers, manufacturers and logistical services provided by third parties, many of whom are located outside of the United States. Substantially all of the Company’s hardware products are manufactured by outsourcing partners that are located primarily in Asia. A significant concentration of this manufacturing is currently performed by a small number of outsourcing partners, often in single locations. The Company has also outsourced much of its transportation and logistics management. While these arrangements may lower operating costs, they also reduce the Company’s direct control over production and distribution.</p>
+</div>
+<!-- Highlighted bounding box corresponding to citation [2] -->
+<div class="border-2 border-dashed border-tertiary/40 bg-tertiary-fixed/10 p-1 -m-1 rounded relative group cursor-pointer mt-4">
+<span class="absolute -left-6 top-1 text-tertiary font-label-caps text-[9px] bg-tertiary-fixed px-1 rounded">[2]</span>
+<p class="text-on-surface-variant relative z-10">Furthermore, international trade disputes, changing geopolitical dynamics, and new or anticipated changes in regulations, including export controls and tariffs related to semiconductor technologies, could adversely affect the Company’s supply chain. The cost, quality and availability of components could be negatively impacted by such geopolitical factors, resulting in delays or increased costs.</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</body></html>
