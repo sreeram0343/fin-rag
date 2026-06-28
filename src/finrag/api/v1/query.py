@@ -2,11 +2,13 @@ import re
 from typing import Any, Dict, List, Optional
 
 import structlog
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pydantic import BaseModel, Field, field_validator
 
 from finrag.api.dependencies import get_orchestrator, verify_token
 from finrag.agent.orchestrator import AgentOrchestrator
+from finrag.utils.excel import generate_financial_excel
+from finrag.utils.pdf import compile_pdf_report
 
 logger = structlog.get_logger(__name__)
 router = APIRouter(prefix="/queries", tags=["Queries"])
@@ -100,4 +102,74 @@ async def compare_disclosures(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Comparison pipeline error: {e}",
+        )
+
+
+class ExportPDFRequest(BaseModel):
+    """Pydantic schema validating PDF export request inputs."""
+
+    answer: str = Field(..., min_length=1)
+    citations: List[Dict[str, Any]] = Field(default_factory=list)
+    title: Optional[str] = "Financial Research Report"
+
+
+class ExportExcelRequest(BaseModel):
+    """Pydantic schema validating Excel export sheets payload."""
+
+    sheets: Dict[str, List[List[Any]]] = Field(..., min_items=1)
+
+
+@router.post("/export/pdf")
+async def export_pdf_report(
+    request: ExportPDFRequest,
+    token_payload: dict = Depends(verify_token),
+) -> Response:
+    """Compile RAG text and citations into a downloadable corporate PDF report."""
+    scopes = token_payload.get("scopes", [])
+    if "read:queries" not in scopes:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Insufficient permissions. Required scope: read:queries",
+        )
+
+    try:
+        pdf_bytes = compile_pdf_report(request.answer, request.citations, request.title)
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={"Content-Disposition": "attachment; filename=report.pdf"},
+        )
+    except Exception as e:
+        logger.exception("Failed to generate PDF report")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"PDF generation failed: {e}",
+        )
+
+
+@router.post("/export/excel")
+async def export_excel_sheet(
+    request: ExportExcelRequest,
+    token_payload: dict = Depends(verify_token),
+) -> Response:
+    """Generate a dynamic mathematical Excel sheet mapping input tables."""
+    scopes = token_payload.get("scopes", [])
+    if "read:queries" not in scopes:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Insufficient permissions. Required scope: read:queries",
+        )
+
+    try:
+        excel_bytes = generate_financial_excel(request.sheets)
+        return Response(
+            content=excel_bytes,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": "attachment; filename=financials.xlsx"},
+        )
+    except Exception as e:
+        logger.exception("Failed to generate Excel sheet")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Excel generation failed: {e}",
         )
